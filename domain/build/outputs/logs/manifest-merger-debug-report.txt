@@ -1,0 +1,31 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/pavlof/Documents/Projects/Android/compose-mvvm-koin/domain/src/main/AndroidManifest.xml:2:1-9:12
+INJECTED from /Users/pavlof/Documents/Projects/Android/compose-mvvm-koin/domain/src/main/AndroidManifest.xml:2:1-9:12
+INJECTED from /Users/pavlof/Documents/Projects/Android/compose-mvvm-koin/domain/src/main/AndroidManifest.xml:2:1-9:12
+	package
+		ADDED from /Users/pavlof/Documents/Projects/Android/compose-mvvm-koin/domain/src/main/AndroidManifest.xml:3:5-45
+		INJECTED from /Users/pavlof/Documents/Projects/Android/compose-mvvm-koin/domain/src/main/AndroidManifest.xml
+		INJECTED from /Users/pavlof/Documents/Projects/Android/compose-mvvm-koin/domain/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/pavlof/Documents/Projects/Android/compose-mvvm-koin/domain/src/main/AndroidManifest.xml:2:11-69
+uses-permission#android.permission.INTERNET
+ADDED from /Users/pavlof/Documents/Projects/Android/compose-mvvm-koin/domain/src/main/AndroidManifest.xml:5:5-66
+	android:name
+		ADDED from /Users/pavlof/Documents/Projects/Android/compose-mvvm-koin/domain/src/main/AndroidManifest.xml:5:22-64
+application
+ADDED from /Users/pavlof/Documents/Projects/Android/compose-mvvm-koin/domain/src/main/AndroidManifest.xml:7:5-19
+uses-sdk
+INJECTED from /Users/pavlof/Documents/Projects/Android/compose-mvvm-koin/domain/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/pavlof/Documents/Projects/Android/compose-mvvm-koin/domain/src/main/AndroidManifest.xml
+INJECTED from /Users/pavlof/Documents/Projects/Android/compose-mvvm-koin/domain/src/main/AndroidManifest.xml
+INJECTED from /Users/pavlof/Documents/Projects/Android/compose-mvvm-koin/domain/src/main/AndroidManifest.xml
+INJECTED from /Users/pavlof/Documents/Projects/Android/compose-mvvm-koin/domain/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /Users/pavlof/Documents/Projects/Android/compose-mvvm-koin/domain/src/main/AndroidManifest.xml
+		ADDED from /Users/pavlof/Documents/Projects/Android/compose-mvvm-koin/domain/src/main/AndroidManifest.xml
+		INJECTED from /Users/pavlof/Documents/Projects/Android/compose-mvvm-koin/domain/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/pavlof/Documents/Projects/Android/compose-mvvm-koin/domain/src/main/AndroidManifest.xml
+		ADDED from /Users/pavlof/Documents/Projects/Android/compose-mvvm-koin/domain/src/main/AndroidManifest.xml
+		INJECTED from /Users/pavlof/Documents/Projects/Android/compose-mvvm-koin/domain/src/main/AndroidManifest.xml

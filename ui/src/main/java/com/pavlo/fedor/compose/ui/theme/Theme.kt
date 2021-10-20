@@ -5,18 +5,14 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
-
-private val DarkColorPalette = darkColors(
-    primary = Purple200,
-    primaryVariant = Purple700,
-    secondary = Teal200
-)
+import androidx.compose.ui.graphics.Color
 
 private val LightColorPalette = lightColors(
-    primary = Purple500,
-    primaryVariant = Purple700,
-    secondary = Teal200,
-    background = BG
+    primary = Color.White,
+    primaryVariant = PrimaryVariant,
+    secondary = Secondary,
+    background = BG,
+    surface = BG
 
     /* Other default colors to override
     background = Color.White,
@@ -33,11 +29,8 @@ fun ComposeMVVMKoinTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable() () -> Unit
 ) {
-    val colors = if (darkTheme) {
-        DarkColorPalette
-    } else {
-        LightColorPalette
-    }
+    //TODO add dark theme
+    val colors = LightColorPalette
 
     MaterialTheme(
         colors = colors,
