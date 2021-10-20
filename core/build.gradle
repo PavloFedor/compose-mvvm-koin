@@ -1,0 +1,35 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply from: '../dependencies.gradle'
+
+android {
+    buildFeatures {
+        compose true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.0.1'
+        kotlinCompilerVersion '1.5.21'
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+
+    //DI
+    api "io.insert-koin:koin-core:$versions.koin"
+    api "io.insert-koin:koin-android:$versions.koin"
+    api "io.insert-koin:koin-androidx-compose:$versions.koin"
+}

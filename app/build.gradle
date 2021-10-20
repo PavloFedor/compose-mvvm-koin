@@ -10,14 +10,6 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = '1.8'
-        useIR = true
-    }
     buildFeatures {
         compose true
     }
@@ -30,22 +22,17 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+        useIR = true
+    }
 }
 
 dependencies {
-
-    implementation project(":ui")
-
-    implementation "androidx.core:core-ktx:1.6.0"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
-
-    implementation "androidx.navigation:navigation-compose:$versions.compose.navigation"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$versions.compose.viewmodel"
-    implementation "androidx.compose.runtime:runtime-livedata:$versions.compose.livedata"
-    implementation "androidx.activity:activity-compose:$versions.compose.activity"
-
-    //DI
-    implementation "io.insert-koin:koin-core:$versions.koin"
-    implementation "io.insert-koin:koin-android:$versions.koin"
-    implementation "io.insert-koin:koin-androidx-compose:$versions.koin"
+    implementation project(":core")
+    implementation project(":flow")
 }

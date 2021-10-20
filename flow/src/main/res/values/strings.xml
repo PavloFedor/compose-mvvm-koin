@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="launches_history_tab">Launches History</string>
+    <string name="launches_favorite_tab">Favorite Launches</string>
+</resources>
