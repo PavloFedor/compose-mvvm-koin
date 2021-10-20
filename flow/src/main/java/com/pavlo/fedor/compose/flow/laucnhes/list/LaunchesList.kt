@@ -1,5 +1,6 @@
 package com.pavlo.fedor.compose.flow.laucnhes.list
 
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,6 +14,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshState
@@ -39,7 +42,6 @@ fun LaunchesList(
         modifier = Modifier
             .fillMaxHeight()
             .fillMaxWidth()
-
     ) {
 
         val listState = rememberLazyListState()
@@ -58,7 +60,7 @@ fun LaunchesList(
                 itemContent = { item ->
                     when (item) {
                         is LaunchesListItemState.InfoItem -> LaunchInfoCell(item.info, onItemClick = { onItemClick(item.info) }, onFavoriteClick = { onFavoriteClick(item.info) })
-                        is LaunchesListItemState.Progress -> LoaderCell()
+                        else -> LoaderCell()
                     }
                 }
             )
