@@ -102,9 +102,7 @@ private fun LaunchErrorImage() {
 @Composable
 private fun FavoriteButton(isFavorite: Boolean, onClick: () -> Unit) = FloatingActionButton(
     onClick = onClick,
-    modifier = Modifier
-        .layoutId(LAUNCH_IS_FAVORITE)
-        .size(40.dp),
+    modifier = Modifier.layoutId(LAUNCH_IS_FAVORITE).size(40.dp),
     backgroundColor = MaterialTheme.colors.primary
 ) {
     Icon(

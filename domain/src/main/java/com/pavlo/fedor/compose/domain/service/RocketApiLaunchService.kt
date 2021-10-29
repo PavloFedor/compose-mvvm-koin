@@ -6,7 +6,7 @@ import com.pavlo.fedor.compose.domain.model.PageRequest
 import kotlinx.coroutines.flow.Flow
 import java.util.*
 
-interface RocketLaunchService {
+interface RocketApiLaunchService {
 
     suspend fun get(query: String?, pageRequest: PageRequest): Flow<PageResult<LaunchInfo>>
 }

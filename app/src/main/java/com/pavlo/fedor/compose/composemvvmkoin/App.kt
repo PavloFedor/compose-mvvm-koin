@@ -4,6 +4,7 @@ import android.app.Application
 import com.pavlo.fedor.compose.domain.DomainModule
 import com.pavlo.fedor.compose.flow.FLowModule
 import com.pavlo.fedor.compose.service.ServiceModule
+import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import timber.log.Timber
 
@@ -14,6 +15,7 @@ class App : Application() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
         startKoin {
+            androidContext(this@App)
             modules(listOf(FLowModule, DomainModule, ServiceModule))
         }
     }

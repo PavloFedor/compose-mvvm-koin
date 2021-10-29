@@ -8,4 +8,4 @@ value class LaunchId(private val value: String) {
     operator fun getValue(thisRef: Any?, property: KProperty<*>) = value
 }
 
-interface LaunchInfoReadableStorage : SearchableStorage<LaunchId, LaunchInfo>
+interface LaunchInfoReadableStorage : SearchableStorage<LaunchId, LaunchInfo?>
