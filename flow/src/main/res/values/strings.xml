@@ -2,4 +2,7 @@
 <resources>
     <string name="launches_history_tab">Launches History</string>
     <string name="launches_favorite_tab">Favorite Launches</string>
+    <string name="launch_status_indicator_succeed">Success</string>
+    <string name="launch_status_indicator_failed">Failed</string>
+    <string name="launch_status_indicator_in_progress">In Progress</string>
 </resources>

@@ -3,22 +3,17 @@ package com.pavlo.fedor.compose.flow.laucnhes.list
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layoutId
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -27,14 +22,13 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
+import com.pavlo.fedor.compose.core.DatePattern
 import com.pavlo.fedor.compose.domain.model.LaunchInfo
+import com.pavlo.fedor.compose.domain.model.LaunchStatus
 import com.pavlo.fedor.compose.flow.R
-import com.pavlo.fedor.compose.flow.laucnhes.list.state.LaunchesListItemState
-import com.pavlo.fedor.compose.flow.laucnhes.list.state.LaunchesListItemState.Progress
-import com.pavlo.fedor.compose.ui.widget.LoaderCell
 import com.skydoves.landscapist.glide.GlideImage
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.distinctUntilChanged
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -56,21 +50,17 @@ fun LaunchInfoCell(info: LaunchInfo, onItemClick: () -> Unit, onFavoriteClick: (
         shape = RoundedCornerShape(8.dp),
         elevation = 4.dp,
         backgroundColor = MaterialTheme.colors.primary,
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onItemClick)
+        modifier = Modifier.fillMaxWidth().clickable(onClick = onItemClick)
     ) {
         ConstraintLayout(
             constraints(),
             modifier = Modifier.padding(bottom = 16.dp)
         ) {
-            LaunchImage(infoUrl = info.imageUrl)
+            LaunchImage(infoUrl = info.imageUrl ?: "")
 
             Divider(
                 color = Color(0xFFA6A6A6),
-                modifier = Modifier
-                    .layoutId(DIVIDER)
-                    .height(0.5.dp)
+                modifier = Modifier.layoutId(DIVIDER).height(0.5.dp)
             )
 
             FavoriteButton(info.isFavorite, onFavoriteClick)
@@ -78,7 +68,7 @@ fun LaunchInfoCell(info: LaunchInfo, onItemClick: () -> Unit, onFavoriteClick: (
             LaunchTitle(title = info.name)
             FlagImage(flagLink = info.countryFlagLink)
             LaunchDate(date = info.date)
-            LaunchSuccessIndicator(isSuccess = info.isSucceed)
+            LaunchSuccessIndicator(status = info.status)
         }
     }
 }
@@ -87,11 +77,14 @@ fun LaunchInfoCell(info: LaunchInfo, onItemClick: () -> Unit, onFavoriteClick: (
 private fun LaunchImage(infoUrl: String) {
     GlideImage(
         imageModel = infoUrl,
-        contentScale = ContentScale.FillWidth,
+        contentScale = ContentScale.Crop,
+        alignment = Alignment.Center,
         failure = { LaunchErrorImage() },
-        modifier = Modifier
-            .layoutId(LAUNCH_IMAGE)
-            .aspectRatio(1.6f),
+        modifier = Modifier.layoutId(LAUNCH_IMAGE).aspectRatio(1.6f),
+        requestOptions = RequestOptions()
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .centerCrop()
+            .sizeMultiplier(0.2f)
     )
 }
 
@@ -102,9 +95,7 @@ private fun LaunchErrorImage() {
         contentDescription = "placeholder",
         alignment = Alignment.Center,
         contentScale = ContentScale.Inside,
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight()
+        modifier = Modifier.fillMaxWidth().fillMaxHeight()
     )
 }
 
@@ -138,9 +129,7 @@ private fun LaunchTitle(title: String) {
         text = title,
         color = Color.Black,
         fontSize = fontSize.sp,
-        modifier = Modifier
-            .height(height.dp)
-            .layoutId(LAUNCH_TITLE),
+        modifier = Modifier.height(height.dp).layoutId(LAUNCH_TITLE),
         maxLines = 2,
         textAlign = TextAlign.Start,
         fontFamily = FontFamily.SansSerif,
@@ -155,34 +144,24 @@ private fun FlagImage(flagLink: String) {
     GlideImage(
         imageModel = flagLink,
         contentScale = ContentScale.Fit,
-        modifier = Modifier
-            .layoutId(LAUNCH_FLAG_IMAGE)
-            .size(20.dp),
+        modifier = Modifier.layoutId(LAUNCH_FLAG_IMAGE).size(20.dp),
         failure = {
             Image(
                 painter = painterResource(id = R.drawable.ic_flag_place_holder),
                 contentDescription = "placeholder",
                 alignment = Alignment.Center,
                 contentScale = ContentScale.Inside,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight()
+                modifier = Modifier.fillMaxWidth().fillMaxHeight()
             )
         }
     )
 }
 
-private const val DATE_SHORT_FORMAT = "dd/MM/yy"
 
 @Composable
 private fun LaunchDate(date: Long) {
-    val formattedDte = remember {
-        SimpleDateFormat(DATE_SHORT_FORMAT, Locale.getDefault()).also { formater ->
-            formater.timeZone = TimeZone.getTimeZone("GTM+00:00")
-        }
-    }
     Text(
-        text = formattedDte.format(date),
+        text = DatePattern.SHORT_DATE(date = Date(date)),
         color = Color(0xFFA6A6A6),
         fontSize = 12.sp,
         modifier = Modifier.layoutId(LAUNCH_DATE),
@@ -194,10 +173,12 @@ private fun LaunchDate(date: Long) {
 }
 
 @Composable
-private fun LaunchSuccessIndicator(isSuccess: Boolean) {
-    val icon = if (isSuccess) R.drawable.ic_launch_succeed else R.drawable.ic_launch_failed
-    val textColor = if (isSuccess) Color(0xFF22BEC8) else Color(0xFFE3576E)
-    val text = if (isSuccess) "Success" else "Failed"
+private fun LaunchSuccessIndicator(status: LaunchStatus) {
+    val (icon, text, textColor) = when (status) {
+        LaunchStatus.SUCCEED -> Triple(R.drawable.ic_launch_succeed, R.string.launch_status_indicator_succeed, Color(0xFF22BEC8))
+        LaunchStatus.FAILED -> Triple(R.drawable.ic_launch_failed, R.string.launch_status_indicator_failed, Color(0xFFE3576E))
+        LaunchStatus.IN_PROGRESS -> Triple(R.drawable.ic_lauch_in_progress, R.string.launch_status_indicator_in_progress, Color(0xFFECB900))
+    }
 
     Image(
         painter = painterResource(id = icon),
@@ -206,7 +187,7 @@ private fun LaunchSuccessIndicator(isSuccess: Boolean) {
     )
 
     Text(
-        text = text,
+        text = stringResource(id = text),
         color = textColor,
         maxLines = 1,
         textAlign = TextAlign.Start,

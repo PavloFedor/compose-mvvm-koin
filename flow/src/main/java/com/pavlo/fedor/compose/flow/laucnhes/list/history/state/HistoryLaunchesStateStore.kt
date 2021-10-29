@@ -15,12 +15,10 @@ class HistoryLaunchesStateStore(
         }
     }
 
-    override fun HistoryLaunchesMutableState.onPageChanged(offset: Int, total: Int, count: Int, items: List<LaunchesListItemState>) = copy(
-        offset = offset,
-        total = total,
-        count = count,
+    override fun HistoryLaunchesMutableState.onPageChanged(isLastPage: Boolean, items: List<LaunchesListItemState>) = copy(
         items = items,
-        isDataLoading = false
+        isDataLoading = false,
+        canLoadMore = isLastPage.not()
     )
 
     override fun HistoryLaunchesMutableState.onItemChanged(index: Int, updatedItem: LaunchesListItemState) = copy(
