@@ -2,6 +2,7 @@ package com.pavlo.fedor.compose.domain
 
 import com.pavlo.fedor.compose.domain.usecase.GetRocketLaunchesUseCase
 import com.pavlo.fedor.compose.domain.usecase.GetRocketLaunchesUseCaseImpl
+import com.pavlo.fedor.compose.domain.usecase.ToggleFavoriteStateUseCase
 import org.koin.dsl.module
 
 val DomainModule = module {
@@ -11,5 +12,9 @@ val DomainModule = module {
             launchesPageStorage = get(),
             paginationService = get()
         )
+    }
+
+    single {
+        ToggleFavoriteStateUseCase(dbService = get(), launchesStorage = get())
     }
 }

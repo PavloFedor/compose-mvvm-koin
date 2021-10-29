@@ -2,6 +2,7 @@ package com.pavlo.fedor.compose.flow.laucnhes.list.history
 
 import com.pavlo.fedor.compose.domain.model.LaunchInfo
 import com.pavlo.fedor.compose.domain.usecase.GetRocketLaunchesUseCase
+import com.pavlo.fedor.compose.domain.usecase.ToggleFavoriteStateUseCase
 import com.pavlo.fedor.compose.flow.laucnhes.list.LaunchesListViewModel
 import com.pavlo.fedor.compose.flow.laucnhes.list.history.state.HistoryLaunchesState
 import com.pavlo.fedor.compose.flow.laucnhes.list.history.state.HistoryLaunchesStateStore
@@ -18,7 +19,8 @@ import java.lang.IllegalStateException
 
 class HistoryLaunchesListViewModel(
     private val stateStore: HistoryLaunchesStateStore,
-    private val getRocketLaunchesUseCase: GetRocketLaunchesUseCase
+    private val getRocketLaunchesUseCase: GetRocketLaunchesUseCase,
+    private val toggleFavoriteStateUseCase: ToggleFavoriteStateUseCase
 ) : LaunchesListViewModel<HistoryLaunchesState>() {
 
     override val stateFlow: StateFlow<HistoryLaunchesState> get() = stateStore.state
@@ -52,6 +54,7 @@ class HistoryLaunchesListViewModel(
 
     fun onSearchChanged(query: String) = launch {
         flowOf(query)
+            .filter { stateFlow.value.searchText != it }
             .onEach { stateStore.dispatch(OnSearchTextChangedAction(it)) }
             .debounce(150)
             .onEach { stateStore.dispatch(OnDataLoadingChanged(isLoading = true)) }
@@ -62,8 +65,9 @@ class HistoryLaunchesListViewModel(
     }
 
     override fun onFavorite(launchInfo: LaunchInfo) = launch {
-        /*  val newItem = launchInfo.copy(isFavorite = !launchInfo.isFavorite)
-          stateStore.dispatch(OnItemChange(newItem))*/
+        toggleFavoriteStateUseCase(launchInfo)
+            .handleError()
+            .collect { stateStore.dispatch(OnItemChange(it)) }
     }
 
     private suspend fun <T> Flow<T>.handleError(): Flow<T> = catch { error ->

@@ -11,7 +11,11 @@ internal val HistoryLaunchesListModule: Module.() -> Unit = {
         scoped { HistoryLaunchesInitialStateFactory() }
         scoped { HistoryLaunchesStateStore(initialStateFactory = get()) }
         viewModel {
-            HistoryLaunchesListViewModel(stateStore = get(), getRocketLaunchesUseCase = get())
+            HistoryLaunchesListViewModel(
+                stateStore = get(),
+                getRocketLaunchesUseCase = get(),
+                toggleFavoriteStateUseCase = get()
+            )
         }
     }
 }
