@@ -7,12 +7,11 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
 
 internal val HistoryLaunchesListModule: Module.() -> Unit = {
-
     scope(typed(HistoryLaunchesListScreen::class)) {
         scoped { HistoryLaunchesInitialStateFactory() }
         scoped { HistoryLaunchesStateStore(initialStateFactory = get()) }
         viewModel {
-            HistoryLaunchesListViewModel(stateStore = get())
+            HistoryLaunchesListViewModel(stateStore = get(), getRocketLaunchesUseCase = get())
         }
     }
 }

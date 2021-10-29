@@ -5,12 +5,18 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class LaunchInfo(
-    val id: Long,
+    val id: String,
     val name: String,
     val infoPage: String,
-    val imageUrl: String,
+    val imageUrl: String?,
     val countryFlagLink: String,
-    val isSucceed: Boolean,
+    val status: LaunchStatus,
     val date: Long,
     val isFavorite: Boolean
 ) : Parcelable
+
+enum class LaunchStatus {
+    FAILED,
+    SUCCEED,
+    IN_PROGRESS
+}

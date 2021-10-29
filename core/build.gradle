@@ -3,10 +3,6 @@ apply plugin: 'kotlin-android'
 apply from: '../dependencies.gradle'
 
 android {
-    buildFeatures {
-        compose true
-    }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -32,4 +28,5 @@ dependencies {
     api "io.insert-koin:koin-core:$versions.koin"
     api "io.insert-koin:koin-android:$versions.koin"
     api "io.insert-koin:koin-androidx-compose:$versions.koin"
+    api 'com.jakewharton.timber:timber:5.0.1'
 }

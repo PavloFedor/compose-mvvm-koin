@@ -2,6 +2,7 @@ package com.pavlo.fedor.compose.flow.laucnhes.list.state.store
 
 import com.pavlo.fedor.compose.domain.model.LaunchInfo
 import com.pavlo.fedor.compose.domain.model.Page
+import com.pavlo.fedor.compose.domain.model.PageResult
 import com.pavlo.fedor.compose.flow.base.state.BaseSyncStateStore
 import com.pavlo.fedor.compose.flow.base.state.InitialStateFactory
 import com.pavlo.fedor.compose.flow.laucnhes.list.state.LaunchesListItemState
@@ -24,7 +25,7 @@ abstract class LaunchesLisStateStore<StateValue : LaunchesListState, MStateValue
         }
     }
 
-    protected abstract fun MStateValue.onPageChanged(offset: Int, total: Int, count: Int, items: List<LaunchesListItemState>): MStateValue
+    protected abstract fun MStateValue.onPageChanged(isLastPage: Boolean, items: List<LaunchesListItemState>): MStateValue
 
     protected abstract fun MStateValue.onItemChanged(index: Int, updatedItem: LaunchesListItemState): MStateValue
 
@@ -36,7 +37,7 @@ abstract class LaunchesLisStateStore<StateValue : LaunchesListState, MStateValue
 
     private fun MStateValue.onPageChanged(page: Page<LaunchInfo>): MStateValue {
         val items = page.entities.map { InfoItem(it) }
-        return onPageChanged(offset = page.offset, total = page.total, count = page.entities.size, items = items)
+        return onPageChanged(isLastPage = page.isLastPage, items = items)
     }
 
     private fun MStateValue.onItemChanged(infoItem: LaunchInfo): MStateValue {

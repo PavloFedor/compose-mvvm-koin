@@ -35,4 +35,6 @@ android {
 dependencies {
     implementation project(":core")
     implementation project(":flow")
+    implementation project(":service")
+    implementation project(":domain")
 }

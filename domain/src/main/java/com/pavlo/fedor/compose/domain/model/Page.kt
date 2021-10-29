@@ -1,7 +1,8 @@
 package com.pavlo.fedor.compose.domain.model
 
-data class Page<Entity>(
-    val offset: Int,
-    val total: Int,
+interface Page<Entity> {
+    val offset: Long
+    val total: Long
     val entities: List<Entity>
-)
+    val isLastPage: Boolean
+}
