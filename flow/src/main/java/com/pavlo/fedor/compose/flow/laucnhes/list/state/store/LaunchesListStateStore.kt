@@ -11,7 +11,7 @@ import com.pavlo.fedor.compose.flow.laucnhes.list.state.LaunchesListItemState.Pr
 import com.pavlo.fedor.compose.flow.laucnhes.list.state.LaunchesListState
 import com.pavlo.fedor.compose.flow.laucnhes.list.state.actions.*
 
-abstract class LaunchesLisStateStore<StateValue : LaunchesListState, MStateValue : StateValue>(
+abstract class LaunchesListStateStore<StateValue : LaunchesListState, MStateValue : StateValue>(
     initialStateFactory: InitialStateFactory<MStateValue>
 ) : BaseSyncStateStore<StateValue, MStateValue, LaunchesListStateAction>(initialStateFactory) {
 

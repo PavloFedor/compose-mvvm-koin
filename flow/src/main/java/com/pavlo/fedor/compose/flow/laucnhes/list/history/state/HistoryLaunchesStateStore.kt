@@ -2,11 +2,11 @@ package com.pavlo.fedor.compose.flow.laucnhes.list.history.state
 
 import com.pavlo.fedor.compose.flow.laucnhes.list.state.LaunchesListItemState
 import com.pavlo.fedor.compose.flow.laucnhes.list.state.actions.LaunchesListStateAction
-import com.pavlo.fedor.compose.flow.laucnhes.list.state.store.LaunchesLisStateStore
+import com.pavlo.fedor.compose.flow.laucnhes.list.state.store.LaunchesListStateStore
 
 class HistoryLaunchesStateStore(
     initialStateFactory: HistoryLaunchesInitialStateFactory
-) : LaunchesLisStateStore<HistoryLaunchesState, HistoryLaunchesMutableState>(initialStateFactory) {
+) : LaunchesListStateStore<HistoryLaunchesState, HistoryLaunchesMutableState>(initialStateFactory) {
 
     override fun HistoryLaunchesMutableState.onOtherAction(action: LaunchesListStateAction): HistoryLaunchesMutableState {
         return when (action) {

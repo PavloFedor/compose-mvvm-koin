@@ -2,11 +2,11 @@ package com.pavlo.fedor.compose.flow.laucnhes.list.favorite.state
 
 import com.pavlo.fedor.compose.flow.laucnhes.list.state.LaunchesListItemState
 import com.pavlo.fedor.compose.flow.laucnhes.list.state.LaunchesListState
-import com.pavlo.fedor.compose.flow.laucnhes.list.state.store.LaunchesLisStateStore
+import com.pavlo.fedor.compose.flow.laucnhes.list.state.store.LaunchesListStateStore
 
 internal class FavoriteLaunchesStateStore(
     initialStateFactory: FavoriteLaunchesInitialStateFactory,
-) : LaunchesLisStateStore<LaunchesListState, FavoriteLaunchesState>(initialStateFactory) {
+) : LaunchesListStateStore<LaunchesListState, FavoriteLaunchesState>(initialStateFactory) {
 
     override fun FavoriteLaunchesState.onPageChanged(isLastPage: Boolean, items: List<LaunchesListItemState>): FavoriteLaunchesState {
         return copy(
