@@ -8,7 +8,6 @@ import kotlinx.coroutines.launch
 abstract class BaseViewModel<State> : ViewModel() {
     abstract val stateFlow: StateFlow<State>
 
-
     protected fun launch(block: suspend () -> Unit) {
         viewModelScope.launch { block() }
     }

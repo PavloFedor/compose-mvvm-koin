@@ -26,12 +26,7 @@ class HistoryLaunchesListViewModel(
     override val stateFlow: StateFlow<HistoryLaunchesState> get() = stateStore.state
 
     init {
-        launch {
-            flowOf(stateFlow.value).map { state -> GetRocketLaunchesUseCase.Params(state.searchText, refresh = true) }
-                .flatMapConcat { params -> getRocketLaunchesUseCase(params = params) }
-                .handleError()
-                .collect { page -> stateStore.dispatch(OnPageChanged(page)) }
-        }
+        onRefresh()
     }
 
     override fun onListScrolledToBottom() = launch {

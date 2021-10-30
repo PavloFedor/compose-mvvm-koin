@@ -8,7 +8,7 @@ import com.pavlo.fedor.compose.domain.storage.LaunchesPageStorage
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.onEach
 
-internal class GetRocketLaunchesUseCaseImpl(
+internal class GetAllRocketLaunchesUseCase(
     private val paginationService: PaginationService,
     private val rocketLaunchService: RocketApiLaunchService,
     private val launchesPageStorage: LaunchesPageStorage

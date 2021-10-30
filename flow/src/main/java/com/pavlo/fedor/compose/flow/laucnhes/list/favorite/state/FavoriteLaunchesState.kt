@@ -1,0 +1,12 @@
+package com.pavlo.fedor.compose.flow.laucnhes.list.favorite.state
+
+import com.pavlo.fedor.compose.flow.laucnhes.list.state.LaunchesListItemState
+import com.pavlo.fedor.compose.flow.laucnhes.list.state.LaunchesListState
+
+internal data class FavoriteLaunchesState(
+    override val items: List<LaunchesListItemState>,
+    override val isDataLoading: Boolean,
+    override val canLoadMore: Boolean
+) : LaunchesListState {
+    override val shouldShowEmptyView: Boolean = !isDataLoading && items.isEmpty()
+}
