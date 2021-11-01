@@ -9,7 +9,6 @@ import com.pavlo.fedor.compose.flow.laucnhes.list.state.actions.OnDataLoadingCha
 import com.pavlo.fedor.compose.flow.laucnhes.list.state.actions.OnNewPageLoadingChanged
 import com.pavlo.fedor.compose.flow.laucnhes.list.state.actions.OnPageChanged
 import kotlinx.coroutines.flow.*
-import timber.log.Timber
 
 internal class FavoriteLaunchesListViewModel(
     private val stateStore: FavoriteLaunchesStateStore,

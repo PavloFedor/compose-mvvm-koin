@@ -2,12 +2,14 @@ package com.pavlo.fedor.compose.flow.laucnhes.list.history
 
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.navigation.NavController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.pavlo.fedor.compose.flow.base.*
 import com.pavlo.fedor.compose.flow.laucnhes.list.LaunchesList
 import com.pavlo.fedor.compose.ui.widget.Search
@@ -18,6 +20,11 @@ object HistoryLaunchesListScreen : Screen<Unit>(parentRoute = "launches", route 
 
     @Composable
     override fun Content(args: Unit, scopeId: String, parentNavController: NavController) = KoinScope(scopeId = scopeId, qualifier = typed(HistoryLaunchesListScreen::class)) {
+        val systemUiController = rememberSystemUiController()
+        systemUiController.setStatusBarColor(
+            MaterialTheme.colors.primary,
+            darkIcons = true
+        )
         Layout(viewModel = scopedViewModel(), focusManager = LocalFocusManager.current)
     }
 
