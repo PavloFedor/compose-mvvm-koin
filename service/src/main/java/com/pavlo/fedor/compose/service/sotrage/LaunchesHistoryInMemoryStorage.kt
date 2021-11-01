@@ -45,5 +45,8 @@ internal class LaunchesHistoryInMemoryStorage : LaunchesPageStorage {
         override val isLastPage: Boolean
     ) : Page<LaunchInfo> {
         override fun toString(): String = "offset: $offset; total: $total; isLast: $isLastPage; count: ${entities.size}"
+
+        override fun equals(other: Any?): Boolean = this === other
+        override fun hashCode(): Int = javaClass.hashCode()
     }
 }

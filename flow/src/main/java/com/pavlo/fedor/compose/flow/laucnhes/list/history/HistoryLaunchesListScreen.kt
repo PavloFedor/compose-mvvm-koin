@@ -37,9 +37,9 @@ object HistoryLaunchesListScreen : Screen<Unit>(parentRoute = "launches", route 
         LaunchesList(
             state = state,
             onItemClick = { Timber.d("${it.countryFlagLink}") },
-            onFavoriteClick = { item -> viewModel.onFavorite(item) },
-            onLoadMore = { viewModel.onListScrolledToBottom() },
-            onRefresh = { viewModel.onRefresh() }
+            onFavoriteClick = viewModel::onFavorite,
+            onLoadMore = viewModel::onListScrolledToBottom,
+            onRefresh = viewModel::onRefresh
         )
     }
 }
