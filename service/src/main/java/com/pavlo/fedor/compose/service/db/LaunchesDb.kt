@@ -8,7 +8,7 @@ import com.pavlo.fedor.compose.service.db.model.LaunchInfoDb
 import com.pavlo.fedor.compose.service.db.model.LaunchStatusDBConverter
 
 @Database(
-    version = 1,
+    version = 2,
     exportSchema = false,
     entities = [
         LaunchInfoDb::class

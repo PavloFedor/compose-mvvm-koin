@@ -1,47 +1,53 @@
 package com.pavlo.fedor.compose.flow.laucnhes.list.favorite
 
 import com.pavlo.fedor.compose.domain.model.LaunchInfo
-import com.pavlo.fedor.compose.domain.usecase.GetFavoritesRocketLaunchesUseCase
-import com.pavlo.fedor.compose.domain.usecase.GetRocketLaunchesUseCase
-import com.pavlo.fedor.compose.domain.usecase.ToggleFavoriteStateUseCase
+import com.pavlo.fedor.compose.domain.usecase.*
 import com.pavlo.fedor.compose.flow.laucnhes.list.LaunchesListViewModel
 import com.pavlo.fedor.compose.flow.laucnhes.list.favorite.state.FavoriteLaunchesStateStore
 import com.pavlo.fedor.compose.flow.laucnhes.list.state.LaunchesListState
 import com.pavlo.fedor.compose.flow.laucnhes.list.state.actions.OnDataLoadingChanged
-import com.pavlo.fedor.compose.flow.laucnhes.list.state.actions.OnItemChange
+import com.pavlo.fedor.compose.flow.laucnhes.list.state.actions.OnNewPageLoadingChanged
 import com.pavlo.fedor.compose.flow.laucnhes.list.state.actions.OnPageChanged
 import kotlinx.coroutines.flow.*
 import timber.log.Timber
 
 internal class FavoriteLaunchesListViewModel(
     private val stateStore: FavoriteLaunchesStateStore,
-    private val getRocketLaunchesUseCase: GetFavoritesRocketLaunchesUseCase,
-    private val toggleFavoriteStateUseCase: ToggleFavoriteStateUseCase
+    private val fetchLaunchesUseCase: FetchRocketLaunchesUseCase,
+    private val toggleFavoriteStateUseCase: ToggleFavoriteStateUseCase,
+    private val onLaunchesPageChangeUseCase: OnLaunchesPageChangeUseCase
 ) : LaunchesListViewModel<LaunchesListState>() {
 
     override val stateFlow: StateFlow<LaunchesListState> get() = stateStore.state
 
     init {
+        launch {
+            onLaunchesPageChangeUseCase(Unit).collect { newPage ->
+                stateStore.dispatch(OnPageChanged(newPage))
+            }
+        }
+
         onRefresh()
     }
 
-    override fun onListScrolledToBottom() {
-        Timber.d("OnScroll")
+    override fun onListScrolledToBottom() = launch {
+        flowOf(stateFlow.value).filter { state -> state.canLoadMore && !state.isDataLoading && !state.isLoadingMore }
+            .map { FetchRocketLaunchesUseCase.Params(query = null, refresh = false) }
+            .flatMapConcat { params -> fetchLaunchesUseCase(params).onStart { stateStore.dispatch(OnNewPageLoadingChanged(isLoading = true)) } }
+            .handleError()
+            .collect()
     }
 
     override fun onRefresh() = launch {
-        getRocketLaunchesUseCase(GetRocketLaunchesUseCase.Params(query = null, refresh = true))
+        fetchLaunchesUseCase(FetchRocketLaunchesUseCase.Params(query = null, refresh = true))
             .onStart { stateStore.dispatch(OnDataLoadingChanged(true)) }
-            .catch {
-                stateStore.dispatch(OnDataLoadingChanged(false))
-                Timber.e(it)
-            }
-            .collect { page -> stateStore.dispatch(OnPageChanged(page)) }
+            .handleError { stateStore.dispatch(OnDataLoadingChanged(false)) }
+            .collect()
     }
 
     override fun onFavorite(launchInfo: LaunchInfo) = launch {
         toggleFavoriteStateUseCase(launchInfo)
-            .catch { Timber.e(it) }
-            .collect { stateStore.dispatch(OnItemChange(it)) }
+            .handleError()
+            .collect()
     }
 }

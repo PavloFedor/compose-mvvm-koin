@@ -16,12 +16,6 @@ internal class FavoriteLaunchesStateStore(
         )
     }
 
-    override fun FavoriteLaunchesState.onItemChanged(index: Int, updatedItem: LaunchesListItemState): FavoriteLaunchesState {
-        return copy(
-            items = items.toMutableList().also { it[index] = updatedItem },
-            isDataLoading = true
-        )
-    }
 
     override fun FavoriteLaunchesState.updateItems(items: List<LaunchesListItemState>): FavoriteLaunchesState {
         return copy(

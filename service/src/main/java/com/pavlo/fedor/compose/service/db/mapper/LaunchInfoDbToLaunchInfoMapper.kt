@@ -15,7 +15,7 @@ internal class LaunchInfoDbToLaunchInfoMapper : Mapper<Unit, LaunchInfoDb, Launc
         countryFlagLink = source.countryFlagLink,
         date = source.date,
         imageUrl = source.image,
-        isFavorite = true,
+        isFavorite = source.isFavorite,
         status = when (source.status) {
             LaunchStatusDb.SUCCEED -> LaunchStatus.SUCCEED
             LaunchStatusDb.FAILED -> LaunchStatus.FAILED

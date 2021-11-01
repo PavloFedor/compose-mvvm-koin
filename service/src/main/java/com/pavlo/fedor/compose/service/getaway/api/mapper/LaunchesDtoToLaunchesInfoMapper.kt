@@ -16,7 +16,8 @@ internal class LaunchesDtoToLaunchesInfoMapper(
         val favorites = additionalParam.favoriteLaunches.toMutableList()
         val entities = source.launches.map { launchDto ->
             val isFavorite = favorites.firstOrNull { it.id == launchDto.id }
-                ?.apply { favorites.remove(this) } != null
+                ?.apply { favorites.remove(this) }
+                ?.isFavorite ?: false
             launchInfoMapper(IsFavorite(isFavorite), launchDto)
         }
         return PageResult(

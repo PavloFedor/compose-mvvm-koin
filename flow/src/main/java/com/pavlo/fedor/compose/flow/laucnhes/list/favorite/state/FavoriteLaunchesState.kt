@@ -8,5 +8,6 @@ internal data class FavoriteLaunchesState(
     override val isDataLoading: Boolean,
     override val canLoadMore: Boolean
 ) : LaunchesListState {
-    override val shouldShowEmptyView: Boolean = !isDataLoading && items.isEmpty()
+    override val shouldShowEmptyView: Boolean get() = !isDataLoading && items.isEmpty()
+    override val isLoadingMore: Boolean get() = items.lastOrNull() is LaunchesListItemState.Progress
 }

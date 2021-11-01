@@ -8,5 +8,6 @@ data class HistoryLaunchesMutableState(
     override val isDataLoading: Boolean = true,
     override val canLoadMore: Boolean
 ) : HistoryLaunchesState {
-    override val shouldShowEmptyView: Boolean = !isDataLoading && items.isEmpty()
+    override val shouldShowEmptyView: Boolean get() = !isDataLoading && items.isEmpty()
+    override val isLoadingMore: Boolean get() = items.lastOrNull() is LaunchesListItemState.Progress
 }

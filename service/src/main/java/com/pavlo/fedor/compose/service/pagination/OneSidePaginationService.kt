@@ -26,7 +26,7 @@ internal class OneSidePaginationService(private val limit: Int = 50) : Paginatio
         if (previousPage == null) return PageRequest(limit = limit, offset = 0)
         if (previousPage.isLastPage) return PageRequest(offset = previousPage.offset, limit = limit)
 
-        return PageRequest(offset = previousPage.entities.size.toLong() + limit, limit = limit)
+        return PageRequest(offset = previousPage.entities.size.toLong(), limit = limit)
     }
 
     private class DefaultPageRequestExecutor<Entity>(
@@ -38,12 +38,12 @@ internal class OneSidePaginationService(private val limit: Int = 50) : Paginatio
             return action(pageRequest)
                 .map { result -> result.mergeToPage(previousPage) }
                 .onEach { page ->
-                    Timber.d("Result after merge: offset: ${page.offset};  total:${page.total}; count:${page.entities.size}")
+                    Timber.d("Result after merge: offset: ${page.offset};  total:${page.total}; count:${page.entities.size}, isLastPage:${page.isLastPage}")
                 }
         }
 
         private fun PageResult<Entity>.mergeToPage(previousPage: Page<Entity>?): Page<Entity> = let { result ->
-            Timber.d("Result before merge: offset: ${offset};  total:${total}; count:${entities.size}")
+            Timber.d("Result before merge: offset: ${offset};  total:${total}; count:${previousPage?.entities?.size}")
             previousPage?.entities?.toMutableList()
                 ?.also { oldEntities -> oldEntities.addAll(result.entities) }
                 ?.let { newEntities -> result.page(newEntities) }

@@ -18,7 +18,6 @@ internal val LaunchesDbModule: Module.() -> Unit = {
     single {
         Room.databaseBuilder(androidApplication(), LaunchesDb::class.java, LaunchesDb.NAME)
             .fallbackToDestructiveMigration()
-            .fallbackToDestructiveMigrationOnDowngrade()
             .build()
     }
 
