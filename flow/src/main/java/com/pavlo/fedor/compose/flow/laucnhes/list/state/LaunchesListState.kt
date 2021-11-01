@@ -6,4 +6,5 @@ interface LaunchesListState {
     val isDataLoading: Boolean
     val shouldShowEmptyView: Boolean
     val canLoadMore: Boolean
+    val isLoadingMore: Boolean
 }

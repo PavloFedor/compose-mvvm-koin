@@ -36,6 +36,7 @@ import com.pavlo.fedor.compose.flow.laucnhes.list.state.LaunchesListState
 import com.pavlo.fedor.compose.ui.widget.LoaderCell
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
+import timber.log.Timber
 
 
 @Composable
@@ -50,6 +51,7 @@ fun LaunchesList(
     onRefresh = onRefresh,
     modifier = Modifier.fillMaxHeight().fillMaxWidth()
 ) {
+    Timber.d("StateItems: ${state.items.lastOrNull()}")
     when {
         state.shouldShowEmptyView -> EmptyView()
         else -> List(
@@ -65,7 +67,7 @@ fun LaunchesList(
 @Composable
 private fun List(state: LaunchesListState, onLoadMore: () -> Unit, onItemClick: (LaunchInfo) -> Unit, onFavoriteClick: (LaunchInfo) -> Unit) {
     val listState = rememberLazyListState()
-    OnScroll(listState = listState, items = state.items, onLoadMore = onLoadMore)
+    OnScroll(listState = listState, onLoadMore = onLoadMore)
 
     LazyColumn(
         modifier = Modifier.fillMaxHeight().fillMaxWidth().padding(PaddingValues(start = 8.dp, end = 8.dp)),
@@ -73,8 +75,9 @@ private fun List(state: LaunchesListState, onLoadMore: () -> Unit, onItemClick: 
         state = listState
     ) {
         items(
-            items = state.items,
+            items = state.items.apply { Timber.d("LastItem: ${state.items.lastOrNull()}") },
             itemContent = { item ->
+                Timber.d("OnItem: ${item}")
                 when (item) {
                     is InfoItem -> LaunchInfoCell(item.info, onItemClick = { onItemClick(item.info) }, onFavoriteClick = { onFavoriteClick(item.info) })
                     else -> LoaderCell()
@@ -85,14 +88,10 @@ private fun List(state: LaunchesListState, onLoadMore: () -> Unit, onItemClick: 
 }
 
 @Composable
-private fun OnScroll(listState: LazyListState, items: List<LaunchesListItemState>, onLoadMore: () -> Unit) = LaunchedEffect(listState) {
-    snapshotFlow { listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0 }
+private fun OnScroll(listState: LazyListState, onLoadMore: () -> Unit) = LaunchedEffect(listState) {
+    snapshotFlow { (listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0) to listState.layoutInfo.totalItemsCount }
         .distinctUntilChanged()
-        .collect { index ->
-            if (index >= items.lastIndex && items.getOrNull(index) !is LaunchesListItemState.Progress) {
-                onLoadMore()
-            }
-        }
+        .collect { (index, count) -> if (index >= count - 1) onLoadMore() }
 }
 
 @Composable

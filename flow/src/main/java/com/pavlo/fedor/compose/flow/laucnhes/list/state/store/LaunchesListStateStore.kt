@@ -10,15 +10,15 @@ import com.pavlo.fedor.compose.flow.laucnhes.list.state.LaunchesListItemState.In
 import com.pavlo.fedor.compose.flow.laucnhes.list.state.LaunchesListItemState.Progress
 import com.pavlo.fedor.compose.flow.laucnhes.list.state.LaunchesListState
 import com.pavlo.fedor.compose.flow.laucnhes.list.state.actions.*
+import timber.log.Timber
 
-abstract class LaunchesLisStateStore<StateValue : LaunchesListState, MStateValue : StateValue>(
+abstract class LaunchesListStateStore<StateValue : LaunchesListState, MStateValue : StateValue>(
     initialStateFactory: InitialStateFactory<MStateValue>
 ) : BaseSyncStateStore<StateValue, MStateValue, LaunchesListStateAction>(initialStateFactory) {
 
     final override suspend fun onAction(oldState: MStateValue, action: LaunchesListStateAction): MStateValue {
         return when (action) {
             is OnPageChanged -> oldState.onPageChanged(action.newPage)
-            is OnItemChange -> oldState.onItemChanged(action.launchInfo)
             is OnNewPageLoadingChanged -> oldState.onNewChangeLoading(action.isLoading)
             is OnDataLoadingChanged -> oldState.onDataLoadingStateChanged(action.isLoading)
             else -> oldState.onOtherAction(action = action)
@@ -26,8 +26,6 @@ abstract class LaunchesLisStateStore<StateValue : LaunchesListState, MStateValue
     }
 
     protected abstract fun MStateValue.onPageChanged(isLastPage: Boolean, items: List<LaunchesListItemState>): MStateValue
-
-    protected abstract fun MStateValue.onItemChanged(index: Int, updatedItem: LaunchesListItemState): MStateValue
 
     protected abstract fun MStateValue.updateItems(items: List<LaunchesListItemState>): MStateValue
 
@@ -38,15 +36,6 @@ abstract class LaunchesLisStateStore<StateValue : LaunchesListState, MStateValue
     private fun MStateValue.onPageChanged(page: Page<LaunchInfo>): MStateValue {
         val items = page.entities.map { InfoItem(it) }
         return onPageChanged(isLastPage = page.isLastPage, items = items)
-    }
-
-    private fun MStateValue.onItemChanged(infoItem: LaunchInfo): MStateValue {
-        val itemIndex = items.indexOfFirst { (it as? InfoItem)?.info?.id == infoItem.id }
-        return if (itemIndex != -1) {
-            onItemChanged(itemIndex, InfoItem(infoItem))
-        } else {
-            this
-        }
     }
 
     private fun MStateValue.onNewChangeLoading(isLoading: Boolean): MStateValue {

@@ -1,6 +1,5 @@
 package com.pavlo.fedor.compose.flow.laucnhes.list.history
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
@@ -18,7 +17,7 @@ import java.util.*
 object HistoryLaunchesListScreen : Screen<Unit>(parentRoute = "launches", route = "history", argsType = Argument.NotingType) {
 
     @Composable
-    override fun Content(args: Unit, scopeId: String, parentNavController: NavController) = KoinScope(scopeId = UUID.randomUUID().toString(), qualifier = typed(HistoryLaunchesListScreen::class)) {
+    override fun Content(args: Unit, scopeId: String, parentNavController: NavController) = KoinScope(scopeId = scopeId, qualifier = typed(HistoryLaunchesListScreen::class)) {
         Layout(viewModel = scopedViewModel(), focusManager = LocalFocusManager.current)
     }
 
