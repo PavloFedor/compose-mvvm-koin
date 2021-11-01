@@ -19,7 +19,7 @@ class HistoryLaunchesStateStore(
     override fun HistoryLaunchesMutableState.onPageChanged(isLastPage: Boolean, items: List<LaunchesListItemState>) = copy(
         items = items,
         isDataLoading = false,
-        canLoadMore = isLastPage.not().apply { Timber.d("HistoryLaunchesMutableState.isLastPage: $isLastPage; ${items.lastOrNull()}") }
+        canLoadMore = isLastPage.not()
     )
 
     override fun HistoryLaunchesMutableState.updateItems(items: List<LaunchesListItemState>) = copy(
@@ -28,7 +28,7 @@ class HistoryLaunchesStateStore(
     )
 
     override fun HistoryLaunchesMutableState.onDataLoadingStateChanged(isLoading: Boolean) = copy(
-        isDataLoading = isLoading.apply { Timber.d("onDataLoadingStateChanged: isLoading: $isLoading; canLoadMore:$canLoadMore; ${items.lastOrNull()}") }
+        isDataLoading = isLoading
     )
 
     private fun HistoryLaunchesMutableState.onSearchChanged(newQuery: String) = copy(

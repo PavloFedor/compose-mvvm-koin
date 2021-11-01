@@ -12,6 +12,7 @@ import com.pavlo.fedor.compose.flow.laucnhes.list.state.actions.OnDataLoadingCha
 import com.pavlo.fedor.compose.flow.laucnhes.list.state.actions.OnNewPageLoadingChanged
 import com.pavlo.fedor.compose.flow.laucnhes.list.state.actions.OnPageChanged
 import kotlinx.coroutines.flow.*
+import timber.log.Timber
 
 class HistoryLaunchesListViewModel(
     private val stateStore: HistoryLaunchesStateStore,
@@ -25,6 +26,7 @@ class HistoryLaunchesListViewModel(
     init {
         launch {
             onLaunchesPageChangeUseCase(Unit).collect { newPage ->
+                Timber.d("OnDispatch")
                 stateStore.dispatch(OnPageChanged(newPage = newPage))
             }
         }
