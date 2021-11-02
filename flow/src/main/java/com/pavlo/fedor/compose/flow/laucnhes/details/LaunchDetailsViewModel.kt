@@ -1,7 +1,9 @@
 package com.pavlo.fedor.compose.flow.laucnhes.details
 
-import androidx.lifecycle.ViewModel
+import com.pavlo.fedor.compose.flow.base.BaseViewModel
+import com.pavlo.fedor.compose.flow.laucnhes.details.state.LaunchInfoDetailsState
 
-class LaunchDetailsViewModel(private val launchWikiUrl: String) : ViewModel() {
+abstract class LaunchDetailsViewModel : BaseViewModel<LaunchInfoDetailsState>() {
 
+    abstract fun onFavoriteChanged()
 }

@@ -1,6 +1,7 @@
 package com.pavlo.fedor.compose.flow.laucnhes
 
 import com.pavlo.fedor.compose.flow.base.typed
+import com.pavlo.fedor.compose.flow.laucnhes.details.LaunchDetailsModule
 import com.pavlo.fedor.compose.flow.laucnhes.list.favorite.FavoriteLaunchesListModule
 import com.pavlo.fedor.compose.flow.laucnhes.list.history.HistoryLaunchesListModule
 import com.pavlo.fedor.compose.flow.laucnhes.state.LaunchesNavigationInitialStateFactory
@@ -20,4 +21,5 @@ internal val LaunchesModule: Module.() -> Unit = {
 
     HistoryLaunchesListModule(this)
     FavoriteLaunchesListModule(this)
+    LaunchDetailsModule(this)
 }

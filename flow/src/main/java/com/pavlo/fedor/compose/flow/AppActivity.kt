@@ -15,6 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.insets.*
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.pavlo.fedor.compose.flow.laucnhes.LaunchesNavigationScreen
+import com.pavlo.fedor.compose.flow.laucnhes.details.LaunchDetailsScreen
 import com.pavlo.fedor.compose.ui.theme.ComposeMVVMKoinTheme
 
 class AppActivity : AppCompatActivity() {
@@ -50,6 +51,7 @@ class AppActivity : AppCompatActivity() {
             startDestination = LaunchesNavigationScreen.toString(),
         ) {
             LaunchesNavigationScreen.registerRoute(navController)(this)
+            LaunchDetailsScreen.registerRoute(navController)(this)
         }
     }
 }
