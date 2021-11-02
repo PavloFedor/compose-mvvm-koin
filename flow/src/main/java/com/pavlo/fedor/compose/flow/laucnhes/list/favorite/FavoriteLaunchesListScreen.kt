@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.pavlo.fedor.compose.flow.base.*
+import com.pavlo.fedor.compose.flow.laucnhes.details.LaunchDetailsScreen
 import com.pavlo.fedor.compose.flow.laucnhes.list.LaunchesList
 import java.util.*
 
@@ -21,16 +22,16 @@ object FavoriteLaunchesListScreen : Screen<Unit>(parentRoute = "launches", route
             MaterialTheme.colors.background,
             darkIcons = true
         )
-        Layout(viewModel = scopedViewModel())
+        Layout(viewModel = scopedViewModel(), navController = parentNavController)
     }
 
 
     @Composable
-    private fun Layout(viewModel: FavoriteLaunchesListViewModel) {
+    private fun Layout(viewModel: FavoriteLaunchesListViewModel, navController: NavController) {
         val state by viewModel.stateFlow.collectAsState()
         LaunchesList(
             state = state,
-            onItemClick = { /*TODO navigate to details*/ },
+            onItemClick = { item -> navController.navigate(LaunchDetailsScreen, item) },
             onFavoriteClick = viewModel::onFavorite,
             onLoadMore = viewModel::onListScrolledToBottom,
             onRefresh = viewModel::onRefresh

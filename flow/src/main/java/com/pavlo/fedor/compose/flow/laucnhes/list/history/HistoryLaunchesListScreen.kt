@@ -11,6 +11,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.pavlo.fedor.compose.flow.base.*
+import com.pavlo.fedor.compose.flow.laucnhes.details.LaunchDetailsScreen
 import com.pavlo.fedor.compose.flow.laucnhes.list.LaunchesList
 import com.pavlo.fedor.compose.ui.widget.Search
 import timber.log.Timber
@@ -25,11 +26,11 @@ object HistoryLaunchesListScreen : Screen<Unit>(parentRoute = "launches", route 
             MaterialTheme.colors.primary,
             darkIcons = true
         )
-        Layout(viewModel = scopedViewModel(), focusManager = LocalFocusManager.current)
+        Layout(viewModel = scopedViewModel(), focusManager = LocalFocusManager.current, navController = parentNavController)
     }
 
     @Composable
-    private fun Layout(viewModel: HistoryLaunchesListViewModel, focusManager: FocusManager) = Column(
+    private fun Layout(navController: NavController, viewModel: HistoryLaunchesListViewModel, focusManager: FocusManager) = Column(
         Modifier.fillMaxWidth()
             .fillMaxHeight()
             .pointerInput(Unit) {
@@ -43,7 +44,7 @@ object HistoryLaunchesListScreen : Screen<Unit>(parentRoute = "launches", route 
 
         LaunchesList(
             state = state,
-            onItemClick = { Timber.d("${it.countryFlagLink}") },
+            onItemClick = { item -> navController.navigate(LaunchDetailsScreen, item) },
             onFavoriteClick = viewModel::onFavorite,
             onLoadMore = viewModel::onListScrolledToBottom,
             onRefresh = viewModel::onRefresh

@@ -10,8 +10,22 @@ sealed class Argument<Type> : (NavBackStackEntry) -> Type {
 
     override fun invoke(entry: NavBackStackEntry): Type = entry.safeArgument(key, type)
 
-    class StringArgument(override val key: String) : Argument<String?>() {
-        override val type: NavType<String?> = NavType.StringType
+    class StringArgument(override val key: String) : Argument<String>() {
+        override val type: NavType<String> = object : NavType<String>(false) {
+            override val name: String get() = "string"
+
+            override fun put(bundle: Bundle, key: String, value: String) {
+                bundle.putString(key, value)
+            }
+
+            override fun get(bundle: Bundle, key: String): String {
+                return bundle[key] as String
+            }
+
+            override fun parseValue(value: String): String {
+                return value
+            }
+        }
     }
 
     object NotingType : Argument<Unit>() {
