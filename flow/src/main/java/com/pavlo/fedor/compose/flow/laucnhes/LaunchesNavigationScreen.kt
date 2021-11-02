@@ -18,7 +18,6 @@ import com.pavlo.fedor.compose.flow.laucnhes.list.history.HistoryLaunchesListScr
 import com.pavlo.fedor.compose.flow.laucnhes.state.LaunchesNavigationState
 import com.pavlo.fedor.compose.ui.widget.BottomBar
 import com.pavlo.fedor.compose.ui.widget.NavigationCell
-import timber.log.Timber
 
 object LaunchesNavigationScreen : Screen<Unit>(route = "launches", Argument.NotingType) {
 

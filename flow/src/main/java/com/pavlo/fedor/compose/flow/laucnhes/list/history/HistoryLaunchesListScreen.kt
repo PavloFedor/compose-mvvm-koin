@@ -11,11 +11,10 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.pavlo.fedor.compose.flow.base.*
+import com.pavlo.fedor.compose.flow.laucnhes.details.DetailArgs
 import com.pavlo.fedor.compose.flow.laucnhes.details.LaunchDetailsScreen
 import com.pavlo.fedor.compose.flow.laucnhes.list.LaunchesList
 import com.pavlo.fedor.compose.ui.widget.Search
-import timber.log.Timber
-import java.util.*
 
 object HistoryLaunchesListScreen : Screen<Unit>(parentRoute = "launches", route = "history", argsType = Argument.NotingType) {
 
@@ -44,7 +43,7 @@ object HistoryLaunchesListScreen : Screen<Unit>(parentRoute = "launches", route 
 
         LaunchesList(
             state = state,
-            onItemClick = { item -> navController.navigate(LaunchDetailsScreen, item) },
+            onItemClick = { item -> navController.navigate(LaunchDetailsScreen, DetailArgs.History(item)) },
             onFavoriteClick = viewModel::onFavorite,
             onLoadMore = viewModel::onListScrolledToBottom,
             onRefresh = viewModel::onRefresh

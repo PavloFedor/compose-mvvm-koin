@@ -13,5 +13,4 @@ val FLowModule = module {
     }
 
     LaunchesModule(this)
-    LaunchDetailsModule(this)
 }
